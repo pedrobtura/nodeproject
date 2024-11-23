@@ -33,8 +33,9 @@
                                         <a href="/delete/<%= data[i].id %>" class="btn btn-danger"> Delete</a>
                                     </td>
                                     <td class="d-flex gap-2">
-                                        <a href="/update/<%= data[i].id %>" class="btn btn-success">Actualizar</a>
-                                    </td>  
+                                        <a href="#" data-id="<%= data[i].id %>"
+                                            class="btn btn-success btn-update">Actualizar</a>
+                                    </td>
                                 </tr>
                                 <% } %>
                                     <% } %>
@@ -52,5 +53,43 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll(".btn-update").forEach((button) => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault()
+                const id = this.dataset.id
+                editCustomer(id)
+            })
+        })
+        function editCustomer(id) {
+            event.preventDefault();
+
+            fetch(`/api/customers/${id}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(Error `al obtener los datos del cliente: ${ response.status }`);
+                    }
+                    return response.json();
+                })
+                .then((customer) => {
+                    document.querySelector('input[name="name"]').value = customer.name;
+                    document.querySelector('input[name="address"]').value = customer.address;
+                    document.querySelector('input[name="phone"]').value = customer.phone;
+
+
+                    const submitButton = document.querySelector('button[type="submit"]');
+                    submitButton.textContent = "Actualizar";
+                    submitButton.classList.add("btn-dark");
+                    submitButton.classList.remove("btn-warning");
+
+                    document.querySelector('form').action = `/update/${ id }`;
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert("No se pudieron cargar los datos del cliente.");
+                });
+        }
+    </script>
 
     <%- include("partials/_footer") %>

@@ -35,26 +35,47 @@ controller.delete = ((req, res) => {
     })
 })
 
-controller.edit = ((req, res) => {
-    const { id } = req.params; //recibe un parametro de la url
+controller.edit = (req, res) => {
+    const { id } = req.params;
     req.getConnection((err, conn) => {
-        conn.query("SELECT * FROM customer WHERE id = ?", [id], (err, customers) => {
-            res.render('customers_edit', { //Redirige a la pagina de customers_edit que esta en views
-                data: customers[0] //envia los datos del objeto a la vista customers
-            })
+        conn.query('SELECT * FROM customer WHERE id = ?', [id], (err, customer) => {
+            if (err) return res.status(500).send('Error al cargar los datos');
+            res.render('customer-edit', { 
+                data: customer[0] 
+            });
         });
-    })
-})
+    });
+};
 
-controller.update=((req,res)=>{
-    const {id}=req.params; //recibe un parametro de la url
-    const newCustomer=req.body;
-    req.getConnection((err,conn)=>{
-        conn.query('UPDATE  customer set ? WHERE id=?',[newCustomer,id],(err,rows)=>{
-        res.redirect('/');   
-        })
-    })
-})
+controller.updateUser = (req, res) => {
+    const { id } = req.params;
+    req.getConnection((err, conn) => {
+        if (err) return res.status(500).send(err);
+        conn.query('SELECT * FROM customer WHERE id = ?', [id], (err, results) => {
+            if (err) return res.status(500).send(err);
+            if (results.length === 0) {
+                return res.status(404).send({ message: 'Cliente no encontrado' });
+            }
+            res.json(results[0]); 
+        });
+    });
+}
+
+controller.update = (req, res) => {
+    const { id } = req.params;
+    const { name, address, phone } = req.body;
+    req.getConnection((err, conn) => {
+        if (err) return res.status(500).send(err);
+        conn.query(
+            'UPDATE customer SET name = ?, address = ?, phone = ? WHERE id = ?',
+            [name, address, phone, id],
+            (err, result) => {
+                if (err) return res.status(500).send(err);
+                res.redirect('/'); 
+            }
+        );
+    });
+};
 
 
 
