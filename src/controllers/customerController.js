@@ -1,5 +1,6 @@
 const controller = {}; //se crea el objeto
 
+
 controller.list = (req, res) => {
     //res.send("Hola controlador");
     req.getConnection((err, conn) => {
@@ -8,7 +9,7 @@ controller.list = (req, res) => {
                 res.json(err);
             }
             res.render('customers', {
-                data: customers
+                data: customers || [],
             }) //.ejs pagina en la vista
         })
     })

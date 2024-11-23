@@ -5,6 +5,7 @@ const myConnection=require('express-myconnection');
 const mysql=require('mysql');
 const app=express();
 
+
 //importar rutas
 const customerRoutes=require('./routes/customer')
 

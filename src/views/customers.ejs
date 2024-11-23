@@ -14,45 +14,99 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (data) { %>
-                            <% for(var i=0; i < data.length; i++) { %>
+                        <% if (data && Array.isArray(data) && data.length > 0) { %>
+                            <% data.forEach((customer, index) => { %>    
                                 <tr>
                                     <td>
-                                        <%= (i + 1) %>
+                                        <%= (index + 1) %>
                                     </td>
                                     <td>
-                                        <%= data[i].name %>
+                                        <%= customer.name %>
                                     </td>
                                     <td>
-                                        <%= data[i].address %>
+                                        <%= customer.address %>
                                     </td>
                                     <td>
-                                        <%= data[i].phone %>
+                                        <%= customer.phone %>
                                     </td>
                                     <td class="d-flex gap-2">
-                                        <a href="/delete/<%= data[i].id %>" class="btn btn-danger"> Delete</a>
+                                        <a href="/delete/<%= customer.id %>" class="btn btn-danger btn-supr" data-id="<%= customer.id %>">Delete</a>
                                     </td>
                                     <td class="d-flex gap-2">
-                                        <a href="#" data-id="<%= data[i].id %>"
+                                        <a href="#" data-id="<%= customer.id %>"
                                             class="btn btn-success btn-update">Actualizar</a>
                                     </td>
                                 </tr>
-                                <% } %>
-                                    <% } %>
+                                <% }); %>
+                        <!-- de lo contrario es porque no hay datos -->
+                    <% } else { %>
+                        <tr>
+                            <h1>No hay datos disponibles</h1>
+                        </tr>
+                    <% } %>
                     </tbody>
                 </table>
 
             </div>
             <div class="col md-5">
                 <form action="/add" method="POST">
-                    <input type="text" name="name" placeholder="Name" class="form-control mb-2" autofocus />
-                    <input type="email" name="address" placeholder="Address" class="form-control mb-2" />
-                    <input type="text" name="phone" placeholder="Phone" class="form-control mb-2" />
+                    <input type="text" name="name" placeholder="Name" class="form-control mb-2" autofocus required />
+                    <input type="email" name="address" placeholder="Address" class="form-control mb-2" required />
+                    <input type="text" name="phone" placeholder="Phone" class="form-control mb-2" required pattern="\d{10}" title="El número de teléfono debe tener 10 dígitos." />
                     <button type="submit" class="btn btn-info">Save customer</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Escuchamos el evento de envío del formulario
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+
+            var name = document.querySelector("input[name='name']").value;
+            var address = document.querySelector("input[name='address']").value;
+            var phone = document.querySelector("input[name='phone']").value;
+    
+            // Validación para campos vacíos
+            if (!name || !address || !phone) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, complete todos los campos.',
+                    confirmButtonText: 'Aceptar'
+                });
+                event.preventDefault(); // Evita el envío del formulario
+                return;
+            }
+    
+            // Validación del teléfono
+            var phonePattern = /^\d{10}$/;
+            if (!phonePattern.test(phone)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El número de teléfono debe tener exactamente 10 dígitos.',
+                    confirmButtonText: 'Aceptar'
+                });
+                event.preventDefault(); // Evita el envío del formulario
+                return;
+            }
+            Swal.fire({
+                icon: 'success',
+                title: '¡Usuario guardado exitosamente!',
+                text: 'El cliente se guardó correctamente.',
+                showConfirmButton: true, // No mostrar el botón de confirmación
+                timer: 0 // La alerta permanecerá 3 segundos
+            }).then(() => {
+                // Después de 3 segundos, enviar el formulario
+                document.querySelector("form").submit();
+            });
+        });
+
+    </script>
 
     <script>
         document.querySelectorAll(".btn-update").forEach((button) => {
@@ -90,6 +144,33 @@
                     alert("No se pudieron cargar los datos del cliente.");
                 });
         }
+    </script>
+
+    <script>
+        document.querySelectorAll(".btn-supr").forEach((button) => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();  // Evitar el comportamiento por defecto (navegar)
+    
+                const deleteUrl = this.href;  // Obtener la URL de eliminación desde el atributo href
+    
+                // Mostrar una alerta de confirmación con SweetAlert2
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Esta acción no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Si el usuario confirma, redirigirlo a la URL de eliminación
+                        window.location.href = deleteUrl;
+                    }
+                });
+            });
+        });
     </script>
 
     <%- include("partials/_footer") %>
