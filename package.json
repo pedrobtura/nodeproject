@@ -10,13 +10,18 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
     "connect-flash": "^0.1.1",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-myconnection": "^1.0.4",
     "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "mysql2": "^3.11.5",
+    "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7"
   }
 }

@@ -173,4 +173,27 @@
         });
     </script>
 
+    <script>
+        document.querySelector(".btn-danger").addEventListener("click", function(event) {
+            event.preventDefault(); // Previene el comportamiento de redirección inmediato
+    
+            // Muestra la alerta de confirmación
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Vas a cerrar sesión y serás redirigido al login.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, redirigir a la ruta de logout
+                    window.location.href = '/logout';
+                }
+            });
+        });
+    </script>    
+
     <%- include("partials/_footer") %>

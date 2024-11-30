@@ -21,7 +21,7 @@ controller.save = ((req, res) => {
     req.getConnection((err, conn) => {
         conn.query('INSERT INTO customer set ?', [data], (err, customers) => { //la ? evita problemas de inyeccion
             console.log(customers);
-            res.redirect('/'); //Redirige a la pagina inicial
+            res.redirect('/customers'); //Redirige a la pagina inicial
         })
     })
 })
@@ -31,7 +31,7 @@ controller.delete = ((req, res) => {
     const { id } = req.params; //recibe un parametro de la url
     req.getConnection((err, conn) => {
         conn.query("DELETE FROM customer WHERE id = ?", [id], (err, rows) => {
-            res.redirect('/'); //Redirige a la pagina inicial 
+            res.redirect('/customers'); //Redirige a la pagina inicial 
         });
     })
 })
@@ -72,7 +72,7 @@ controller.update = (req, res) => {
             [name, address, phone, id],
             (err, result) => {
                 if (err) return res.status(500).send(err);
-                res.redirect('/'); 
+                res.redirect('/customers'); 
             }
         );
     });

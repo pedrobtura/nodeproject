@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    <<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">CRUD NODEJS</a>
+            <a class="navbar-brand" href="/customers">CRUD NODEJS</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -20,10 +20,26 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">Inicio Crud
+                        <a class="nav-link active" href="/customers">Inicio Crud
                             <span class="visually-hidden">(current)</span>
                         </a>
                     </li>
+                </ul>
             </div>
+            <% if (user) { %>
+                <div class="d-flex justify-content-end">
+                    <span class="text-white me-3">Hola, <%= user.name %>!
+                    <br> <%= user.email %>!</span>
+                    <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+                </div>
+            <% } else { %>
+
+            <!-- Botón de Logout -->
+            <div class="d-flex justify-content-end ">
+                <a href="/login" class="btn btn-primary">Iniciar sesión</a>
+            </div>
+        <% } %>
+
         </div>
         </nav>
+

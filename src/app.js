@@ -3,8 +3,11 @@ const path = require('path');
 const morgan =require('morgan');
 const myConnection=require('express-myconnection');
 const mysql=require('mysql');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
 const app=express();
 
+const authRoutes = require('./routes/auth'); // Ajusta la ruta según corresponda
 
 //importar rutas
 const customerRoutes=require('./routes/customer')
@@ -25,15 +28,27 @@ app.use(myConnection(mysql,{
     database:'crudnodemysql'
 },'single'));
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+    secret: 'mysecretkey',
+    resave: false,
+    saveUninitialized: true
+}));
 
 // rutas
+
+
+app.get('/', (req, res) => {
+    res.render('login'); // O la vista que deseas renderizar, como 'register' o 'login'
+});
+app.use('/', authRoutes); // Usamos las rutas de auth.js para /register y /login
 app.use('/', customerRoutes);
 
 // archivos estaticos imagenes,stilos framework 
 app.use(express.static(path.join(__dirname, "public")));
 
-
 //iniciar servidor
 app.listen(3000,()=>{
     console.log("servidor arriba y funcionando")
 })
+
+

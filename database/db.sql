@@ -1,19 +1,28 @@
--- to create a new database
-CREATE DATABASE crudnodemysql;
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS crudnodemysql;
 
--- to use database
-use crudnodemysql;
+-- Usar la base de datos
+USE crudnodemysql;
 
--- creating a new table
-CREATE TABLE customer (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(50) NOT NULL,
-address VARCHAR(100) NOT NULL,
-phone VARCHAR(15)
+-- Crear la tabla 'customer'
+CREATE TABLE IF NOT EXISTS customer (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    phone VARCHAR(15)
 );
 
--- to show all tables
-show tables;
+-- Crear la tabla 'users'
+CREATE TABLE IF NOT EXISTS users (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- to describe table
-describe customer;
+-- Ver todas las tablas creadas
+SHOW TABLES;
+
+-- Describir la tabla 'customer' (opcional)
+DESCRIBE customer;
