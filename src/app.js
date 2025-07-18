@@ -34,6 +34,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// middleware para pasar 'user' a todas las vistas
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null; // Establece 'user' en res.locals
+    next();
+});
+
+
 // rutas
 
 

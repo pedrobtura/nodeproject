@@ -1,0 +1,27 @@
+<!-- verifyToken.ejs -->
+<%- include("partials/_header") %>
+
+<div class="container mt-5">
+    <h2>Verifica tu identidad</h2>
+
+    <% if (error) { %>
+        <div class="alert alert-danger mt-4">
+            <%= error %>
+        </div>
+    <% } %>
+
+    <form method="POST" action="/verifyToken">
+        <div class="mb-3">
+            <label for="token" class="form-label">Introduce tu token</label>
+            <input type="text" class="form-control" id="token" name="token" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Verificar</button>
+    </form>
+
+    <% if (user) { %>
+        <p class="mt-4">Hola, <%= user.name %>! Tu correo es <%= user.email %></p>
+    <% } %>
+</div>
+
+<%- include("partials/_footer") %>

@@ -27,19 +27,19 @@
                 </ul>
             </div>
             <% if (user) { %>
-                <div class="d-flex justify-content-end">
-                    <span class="text-white me-3">Hola, <%= user.name %>!
-                    <br> <%= user.email %>!</span>
-                    <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+                <div class="d-flex flex-column align-items-start me-4"> <!-- Añadido 'me-4' para margen derecho -->
+                    <span class="text-white mb-1">Hola, <%= user.name %>!</span>
+                    <span class="text-white"> <%= user.email %>!</span>
                 </div>
             <% } else { %>
-
+                <div class="d-flex justify-content-end">
+                    <span class="text-white me-3">No estás autenticado.</span>
+                </div>
+            <% } %>
             <!-- Botón de Logout -->
             <div class="d-flex justify-content-end ">
-                <a href="/login" class="btn btn-primary">Iniciar sesión</a>
+                <a href="/login" class="btn btn-primary">Cerrar sesión</a>
             </div>
-        <% } %>
-
         </div>
         </nav>
 

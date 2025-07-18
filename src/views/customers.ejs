@@ -174,7 +174,7 @@
     </script>
 
     <script>
-        document.querySelector(".btn-danger").addEventListener("click", function(event) {
+        document.querySelector(".btn-primary").addEventListener("click", function(event) {
             event.preventDefault(); // Previene el comportamiento de redirección inmediato
     
             // Muestra la alerta de confirmación
@@ -190,7 +190,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Si el usuario confirma, redirigir a la ruta de logout
-                    window.location.href = '/logout';
+                    window.location.href = '/login';
                 }
             });
         });

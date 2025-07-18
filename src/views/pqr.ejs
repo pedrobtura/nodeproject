@@ -1,0 +1,171 @@
+<%- include("partials/_header_login") %>
+
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://www.hidropacifico.com/wp-content/uploads/2020/03/pqr.png" class="img-fluid"
+                        alt="Sample image" style="width: 600px">
+                </div>
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    <form action="/pqr" method="POST" class="mx-1 mx-md-4">
+
+                        <!-- Nombre input -->
+                        <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                            <input type="text" id="formName" name="name" class="form-control form-control-lg"
+                                placeholder="Ingresa tu nombre completo" autocomplete="name"  />
+                            <label class="form-label" for="formName">Nombre Completo</label>
+                        </div>
+
+                        <!-- Email input -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="email" id="formEmail" name="email" class="form-control form-control-lg"
+                                placeholder="Ingresa tu correo electrónico" autocomplete="email"  />
+                            <label class="form-label" for="formEmail">Correo Electrónico</label>
+                        </div>
+
+                        <!-- Tipo de queja select -->
+                        <div class="form-outline mb-4">
+                            <select id="formComplaintType" name="complaint_type" class="form-control form-control-lg"
+                                required>
+                                <option value="">Selecciona la acción</option>
+                                <option value="Petición">Petición</option>
+                                <option value="Queja">Queja</option>
+                                <option value="Recurso">Recurso</option>
+                            </select>
+                            <label class="form-label" for="formComplaintType">Tipo de acción</label>
+                        </div>
+
+                        <!-- Cuadro de texto -->
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <textarea id="formText" name="complaint_text" class="form-control form-control-lg"
+                                placeholder="Agrega tu descripción (max 300 words)" maxlength="1500" rows="5"
+                                required></textarea>
+                            <label class="form-label" for="formText">Descripción</label>
+                        </div>
+
+                        <!-- Enviar Button -->
+                        <div class="text-center text-lg-start mt-4 pt-2 mb-4">
+                            <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                                class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Enviar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div
+            class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+            <!-- Copyright -->
+            <div class="text-white mb-3 mb-md-0">
+                Copyright © 2020. All rights reserved.
+            </div>
+            <!-- Copyright -->
+
+            <!-- Right -->
+            <div>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#!" class="text-white me-4">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#!" class="text-white">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        // Espera a que el DOM esté completamente cargado
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form"); // Obtén el formulario
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Previene el envío del formulario para hacer validaciones
+
+                const name = document.getElementById("formName").value.trim();
+                const email = document.getElementById("formEmail").value.trim();
+                const complaintType = document.getElementById("formComplaintType").value.trim();
+                const complaintText = document.getElementById("formText").value.trim();
+
+                // Validación de nombre
+
+                if (!name) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Por favor ingresa tu nombre.',
+                    });
+                    return;
+                }
+
+                // Validación de correo electrónico
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!email) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Por favor ingresa tu correo electrónico.',
+                    });
+                    return;
+                } else if (!emailPattern.test(email)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Por favor ingresa un correo electrónico válido.',
+                    });
+                    return;
+                }
+
+                // Validación de tipo de queja
+                if (!complaintType) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Por favor selecciona el tipo de queja.',
+                    });
+                    return;
+                }
+
+                // Validación de texto de la queja
+                if (!complaintText) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Por favor describe tu queja.',
+                    });
+                    return;
+                } else if (complaintText.length > 1500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'El texto de la queja no debe exceder los 300 palabras.',
+                    });
+                    return;
+                }
+
+                // Si las validaciones son correctas, envía el formulario
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Queja enviada exitosamente!',
+                    text: 'Gracias por compartir tu queja.',
+                    timer: 2000,
+                }).then(() => {
+                    // Aquí puedes proceder a enviar el formulario si todo está bien
+                    form.submit();
+                });
+            });
+        });
+    </script>
+
+    <%- include("partials/_footer") %>

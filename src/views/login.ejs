@@ -23,7 +23,7 @@
                                 placeholder="Enter password" />
                             <label class="form-label" for="form3Example4">Password</label>
                         </div>
-
+                        
                         <div class="d-flex justify-content-between align-items-center">
                             <!-- Checkbox -->
                             <div class="form-check mb-0">
@@ -34,6 +34,13 @@
                             </div>
                             <a href="#!" class="text-body">Forgot password?</a>
                         </div>
+
+                        <!-- Mostrar mensaje si el token fue enviado -->
+                    <% if (typeof error !== 'undefined') { %>
+                        <div class="alert alert-info">
+                            Se ha enviado un token a tu correo electrónico. Ingresa el token en la siguiente página.
+                        </div>
+                    <% } %>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" data-mdb-button-init data-mdb-ripple-init
